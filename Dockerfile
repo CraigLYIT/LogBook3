@@ -1,3 +1,3 @@
 # Dockerfil
 FROM nginx: 1.19
-COPY . /user/share/nginx/html
+COPY . /usr/share/nginx/html

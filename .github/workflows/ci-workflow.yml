@@ -60,7 +60,7 @@ jobs:
        username: ${{github.actor}}
        password: ${{secrets.GITHUB_TOKEN}}
        registry: docker.pkg.github.com
-       repsoitory: craiglyit/logbook3/tic-tac-toe2
+       repsoitory: craiglyit/logbook3
        #docmilo/dockerpackagesdemo/tic-tac-toe
        #craiglyit/logbook3/tic-tac-toe
        tag_with_sha: true

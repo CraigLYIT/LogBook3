@@ -2,12 +2,16 @@ name: Node CI
 
 on: [push]
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: npm install and build webpack
         run: |
           npm install
@@ -25,9 +29,9 @@ jobs:
         node-version: [12.x, 14.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - uses: actions/download-artifact@master
@@ -44,23 +48,28 @@ jobs:
   Build-and-Push-Docker-Image:
    runs-on: ubuntu-latest
    needs: test
+   #new
+   permissions:
+      contents: read
+      packages: write
+  #end new
    name: Docker Build, Tag, Push
   
    steps:
    - name: Checkout
-     uses: actions/checkout@v2
+     uses: actions/checkout@v3
    - name: Download built artifact
      uses: actions/download-artifact@main
      with:
        name: webpack artifacts
        path: public
    - name: Build container image
-     uses: docker/build-push-action@v2
+     uses: docker/build-push-action@v3
      with:
        username: ${{github.actor}}
        password: ${{secrets.GITHUB_TOKEN}}
        registry: docker.pkg.github.com
-       repsoitory: craiglyit/logbook3
+       repsoitory: craiglyit/logbook3/tic-tac-toe
        #docmilo/dockerpackagesdemo/tic-tac-toe
        #craiglyit/logbook3/tic-tac-toe
        tag_with_sha: true
